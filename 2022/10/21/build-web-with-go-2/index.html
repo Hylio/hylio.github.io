@@ -1,32 +1,265 @@
-extends includes/layout.pug
+<!DOCTYPE html><html lang="en" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"><title>build_web_with_go_2 | Hylio's blog</title><meta name="author" content="hylio"><meta name="copyright" content="hylio"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="结构体 Go支持只提供类型，而不写字段名的方式。即匿名字段，也称为嵌入字段。当匿名字段是一个结构体时，那么该匿名结构体的所有字段都被隐式地引入当前定义中的结构体。 123456789101112131415161718type Human struct &amp;#123;    name string    age int&amp;#125;type Student struct&amp;#123;    Human">
+<meta property="og:type" content="article">
+<meta property="og:title" content="build_web_with_go_2">
+<meta property="og:url" content="http://hylio.github.io/2022/10/21/build-web-with-go-2/index.html">
+<meta property="og:site_name" content="Hylio&#39;s blog">
+<meta property="og:description" content="结构体 Go支持只提供类型，而不写字段名的方式。即匿名字段，也称为嵌入字段。当匿名字段是一个结构体时，那么该匿名结构体的所有字段都被隐式地引入当前定义中的结构体。 123456789101112131415161718type Human struct &amp;#123;    name string    age int&amp;#125;type Student struct&amp;#123;    Human">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png">
+<meta property="article:published_time" content="2022-10-21T06:27:54.000Z">
+<meta property="article:modified_time" content="2022-10-25T06:35:36.000Z">
+<meta property="article:author" content="hylio">
+<meta property="article:tag" content="goland">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://hylio.github.io/2022/10/21/build-web-with-go-2/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: 'Just',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  }
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'build_web_with_go_2',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2022-10-25 14:35:36'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
 
-block content
-  #post
-    if top_img === false
-      include includes/header/post-info.pug
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
 
-    article#article-container.post-content!=page.content
-    include includes/post/post-copyright.pug
-    .tag_share
-      if (theme.post_meta.post.tags)
-        .post-meta__tag-list
-          each item, index in page.tags.data
-            a(href=url_for(item.path)).post-meta__tags #[=item.name]
-      include includes/third-party/share/index.pug
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+    win.getCSS = (url,id = false) => new Promise((resolve, reject) => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      if (id) link.id = id
+      link.onerror = reject
+      link.onload = link.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        link.onload = link.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(link)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
         
-    if theme.reward.enable && theme.reward.QR_code
-      !=partial('includes/post/reward', {}, {cache: true})
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.2.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">6</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">6</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">0</div></a></div><hr/></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><span id="blog-info"><a href="/" title="Hylio's blog"><span class="site-name">Hylio's blog</span></a></span><div id="menus"><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">build_web_with_go_2</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2022-10-21T06:27:54.000Z" title="Created 2022-10-21 14:27:54">2022-10-21</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2022-10-25T06:35:36.000Z" title="Updated 2022-10-25 14:35:36">2022-10-25</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="build_web_with_go_2"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post View:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="结构体"><a href="#结构体" class="headerlink" title="结构体"></a>结构体</h1><ol>
+<li><p>Go支持只提供类型，而不写字段名的方式。即匿名字段，也称为嵌入字段。当匿名字段是一个结构体时，那么该匿名结构体的所有字段都被隐式地引入当前定义中的结构体。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> Human <span class="keyword">struct</span> &#123;</span><br><span class="line">    name <span class="type">string</span></span><br><span class="line">    age <span class="type">int</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> Student <span class="keyword">struct</span>&#123;</span><br><span class="line">    Human <span class="comment">//匿名字段，默认Student包含了Human的所有字段</span></span><br><span class="line">    major <span class="type">string</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    mark := Student&#123;Human&#123;<span class="string">&quot;mark, 20&quot;</span>&#125;, <span class="string">&quot;Computer&quot;</span>&#125;</span><br><span class="line">    fmt.Println(mark.name)</span><br><span class="line">    fmt.Println(mark.major)</span><br><span class="line">    <span class="comment">// 也可以将内部的结构体作为外部结构体的属性进行调用</span></span><br><span class="line">    fmt.Println(mark.Human.name)</span><br><span class="line">    fmt.Println(mark.Human)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>当内部结构体和外部结构体拥有同样名称的字段时，优先访问外部的。如果想访问匿名字段中的同名字段，可以通过先调用匿名字段名来访问。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> Human <span class="keyword">struct</span> &#123;</span><br><span class="line">    name <span class="type">string</span></span><br><span class="line">    age <span class="type">int</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> Student <span class="keyword">struct</span>&#123;</span><br><span class="line">    Human <span class="comment">//匿名字段，默认Student包含了Human的所有字段</span></span><br><span class="line">    age <span class="type">int</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    mark := Student&#123;Human&#123;<span class="string">&quot;mark, 20&quot;</span>&#125;, <span class="number">21</span>&#125;</span><br><span class="line">    fmt.Println(mark.age) <span class="comment">// student里的age</span></span><br><span class="line">    fmt.Println(mark.Human.age) <span class="comment">// human里的age</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>方法可以作用在任何的自定义类型、内置类型、struct等各种类型上面。</p>
+</li>
+<li><p>如果要对结构体的内容进行更改，则需要将指针（而不是结构体自身）作为方法的接收者。如果不传递指针，那么方法接收到的实际上是结构体的一个copy，对其的更改并不能真正作用在原结构体上。</p>
+</li>
+<li><p>Go可以自动识别需要的是指针or指针对应的值，也就是说：如果一个method的receiver是*T,你可以在一个T类型的实例变量V上面调用这个method，而不需要&amp;V去调用这个method；同样的，如果一个method的receiver是T，你可以在一个*T类型的变量P上面调用这个method，而不需要 *P去调用这个method。</p>
+</li>
+<li><p>与字段相同，method也能够继承。如果匿名字段实现了一个method，那么包含这个字段的struct也能够调用这个method。如果想要重写method，则直接为当前struct定义一个method即可。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">&quot;fmt&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> Human <span class="keyword">struct</span> &#123;</span><br><span class="line">	name <span class="type">string</span></span><br><span class="line">	age <span class="type">int</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> Employee <span class="keyword">struct</span> &#123;</span><br><span class="line">	Human <span class="comment">//匿名字段</span></span><br><span class="line">	company <span class="type">string</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//Human定义method</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(h *Human)</span></span> SayHi() &#123;</span><br><span class="line">	fmt.Printf(<span class="string">&quot;Hi, I am %s you can call me on %s\n&quot;</span>, h.name, h.phone)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//Employee的method重写Human的method</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(e *Employee)</span></span> SayHi() &#123;</span><br><span class="line">	fmt.Printf(<span class="string">&quot;Hi, I am %s, I work at %s. Call me on %s\n&quot;</span>, e.name,</span><br><span class="line">		e.company, e.phone) <span class="comment">//Yes you can split into 2 lines here.</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	sam := Employee&#123;Human&#123;<span class="string">&quot;Sam&quot;</span>, <span class="number">45</span>, <span class="string">&quot;111-888-XXXX&quot;</span>&#125;, <span class="string">&quot;Golang Inc&quot;</span>&#125;</span><br><span class="line"></span><br><span class="line">	mark.SayHi()</span><br><span class="line">	sam.SayHi()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h1 id="接口"><a href="#接口" class="headerlink" title="接口"></a>接口</h1><ol>
+<li><p>接口是一组方法的集合，如果某个对象能够实现该接口的所有方法，那么此对象就实现了此接口。接口可以被任意多个对象实现，一个对象也可以实现任意多个接口。</p>
+</li>
+<li><p>如果定义一个interface的变量，那么这个变量里面可以存储实现了这个interface的任意类型的对象。如果定义一个interface类型的slice，这个slice也可以被赋予实现了该interface的任意对象，甚至可以在同一个slice中存储不同类的对象，只要他们实现了这个slice对应的interface。 </p>
+</li>
+<li><p>空interface(interface{})不包含任何method，正因如此，所有的类型都实现了空interface。空interface对描述起不到任何作用，但它使得我们可以存储任意类型的数值。一个函数如果把interface{}作为参数，那么说明它可以接收任意类型的值作为参数。一个函数如果返回interface{}作为返回值，那么也就可以返回任意类型的值。</p>
+</li>
+<li><p>可以有两种方法来确定一个interface变量中存储的是何种类型的对象。</p>
+<ul>
+<li><p>断言</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> _, ok := element.(<span class="type">int</span>); ok&#123;</span><br><span class="line">    fmt.Println(<span class="string">&quot;this is an int&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>通过switch来判断，注意element.(type)只能在switch语句中使用。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> index, element := <span class="keyword">range</span> list&#123;</span><br><span class="line">			<span class="keyword">switch</span> value := element.(<span class="keyword">type</span>) &#123;</span><br><span class="line">				<span class="keyword">case</span> <span class="type">int</span>:</span><br><span class="line">					fmt.Printf(<span class="string">&quot;an int&quot;</span>)</span><br><span class="line">				<span class="keyword">case</span> <span class="type">string</span>:</span><br><span class="line">					fmt.Printf(<span class="string">&quot;a string“)</span></span><br><span class="line"><span class="string">				case Person:</span></span><br><span class="line"><span class="string">					fmt.Printf(&quot;</span>a Person<span class="string">&quot;)</span></span><br><span class="line"><span class="string">				default:</span></span><br><span class="line"><span class="string">					fmt.Println(&quot;</span>a different <span class="keyword">type</span><span class="string">&quot;)</span></span><br><span class="line"><span class="string">			&#125;</span></span><br><span class="line"><span class="string">		&#125;</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p>与匿名字段相似，如果一个interface1作为interface2的嵌入手段，那么interface2隐式的包含了interface1中所有method。例如在源码中，heap接口实际上就是包含了sort接口。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> Interface <span class="keyword">interface</span> &#123;</span><br><span class="line">	sort.Interface <span class="comment">//嵌入字段sort.Interface</span></span><br><span class="line">	Push(x <span class="keyword">interface</span>&#123;&#125;) <span class="comment">//a Push method to push elements into the heap</span></span><br><span class="line">	Pop() <span class="keyword">interface</span>&#123;&#125; <span class="comment">//a Pop elements that pops elements from the heap</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">type</span> Interface <span class="keyword">interface</span> &#123;</span><br><span class="line">	<span class="comment">// Len is the number of elements in the collection.</span></span><br><span class="line">	Len() <span class="type">int</span></span><br><span class="line">	<span class="comment">// Less returns whether the element with index i should sort</span></span><br><span class="line">	<span class="comment">// before the element with index j.</span></span><br><span class="line">	Less(i, j <span class="type">int</span>) <span class="type">bool</span></span><br><span class="line">	<span class="comment">// Swap swaps the elements with indexes i and j.</span></span><br><span class="line">	Swap(i, j <span class="type">int</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h1 id="反射"><a href="#反射" class="headerlink" title="反射"></a>反射</h1><ol>
+<li><p>Go语言实现了反射，使用反射可以检查程序在运行时的状态。一般使用的包时reflect包。reflect的使用如下：</p>
+<ul>
+<li><p>首先需要将其转化为reflect对象，即reflect.Type或者reflect.Value。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">t := reflect.Typeof(x) <span class="comment">// 获得x中的所有元素类型</span></span><br><span class="line">v := reflect.Valueof(x) <span class="comment">// 获得x中的所有元素的值</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>转化为reflect对象后，可以从中获取值。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">tag := t.Elem().Field(<span class="number">0</span>).Tag  <span class="comment">//获取定义在struct里面的标签</span></span><br><span class="line">name := v.Elem().Field(<span class="number">0</span>).String()  <span class="comment">//获取存储在第一个字段里面的值</span></span><br><span class="line"><span class="keyword">var</span> x <span class="type">float64</span> = <span class="number">3.4</span></span><br><span class="line">v := reflect.ValueOf(x)</span><br><span class="line">fmt.Println(<span class="string">&quot;type:&quot;</span>, v.Type())</span><br><span class="line">fmt.Println(<span class="string">&quot;kind is float64:&quot;</span>, v.Kind() == reflect.Float64)</span><br><span class="line">fmt.Println(<span class="string">&quot;value:&quot;</span>, v.Float())</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>反射的字段可以修改，如果想要修改，那必须在一开始传入指针。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> x <span class="type">float64</span> = <span class="number">3.4</span></span><br><span class="line">p := reflect.ValueOf(&amp;x)</span><br><span class="line">v := p.Elem()</span><br><span class="line">v.SetFloat(<span class="number">7.1</span>)</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+</ol>
+<h1 id="并发"><a href="#并发" class="headerlink" title="并发"></a>并发</h1><ol>
+<li><p>goroutine是Go并行设计的核心。goroutine是比线程更小的协程，Go语言底层实现了这些goroutine之间的内存共享，执行起来只需要极少的栈内存。所以goroutine比thread更易用、更高效、更轻便。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 通过如下语句可以启动一个goroutine</span></span><br><span class="line"><span class="keyword">go</span> hello(a, b, c)</span><br></pre></td></tr></table></figure>
 
-    //- ad
-    if theme.ad && theme.ad.post
-      .ads-wrap!=theme.ad.post
+<p>如下是goroutine并发的一个例子。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;fmt&quot;</span></span><br><span class="line">	<span class="string">&quot;runtime&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">say</span><span class="params">(s <span class="type">string</span>)</span></span> &#123;</span><br><span class="line">	<span class="keyword">for</span> i := <span class="number">0</span>; i &lt; <span class="number">5</span>; i++ &#123;</span><br><span class="line">		runtime.Gosched() <span class="comment">// 表示把时间片让给其他程序</span></span><br><span class="line">		fmt.Println(s)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="keyword">go</span> say(<span class="string">&quot;world&quot;</span>) <span class="comment">//开一个新的Goroutines执行</span></span><br><span class="line">	say(<span class="string">&quot;hello&quot;</span>) <span class="comment">//当前Goroutines执行</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 以上程序执行后将输出：</span></span><br><span class="line"><span class="comment">// hello</span></span><br><span class="line"><span class="comment">// world</span></span><br><span class="line"><span class="comment">// hello</span></span><br><span class="line"><span class="comment">// world</span></span><br><span class="line"><span class="comment">// hello</span></span><br><span class="line"><span class="comment">// world</span></span><br><span class="line"><span class="comment">// hello</span></span><br><span class="line"><span class="comment">// world</span></span><br><span class="line"><span class="comment">// hello</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>为了做好goroutine之间的贡献内存，显然需要进行goroutine的数据通信。Go提供了一个很好的通信机制：channel。channel可以与unix shell中的双向管道类比，可以通过channel发送或者接收值。在定义一个channel时，必须定义发送到channel的值的类型。必须使用make创建channel。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 创建channel</span></span><br><span class="line">ci := <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="type">int</span>)</span><br><span class="line">cs := <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="type">string</span>)</span><br><span class="line">cf := <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="keyword">interface</span>&#123;&#125;)</span><br></pre></td></tr></table></figure>
 
-    if theme.post_pagination
-      include includes/pagination.pug
-    if theme.related_post && theme.related_post.enable
-      != related_posts(page,site.posts)
+<p>channel通过操作符<code>&lt;-</code>来接收和发送数据。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ch &lt;- v <span class="comment">// 发送v到channel ch</span></span><br><span class="line">x := &lt;-ch <span class="comment">// 从ch中接收数据，并赋值给v</span></span><br></pre></td></tr></table></figure>
 
-    if page.comments !== false && theme.comments && theme.comments.use
-      - var commentsJsLoad = true
-      !=partial('includes/third-party/comments/index', {}, {cache: true})
-      
+<p>在默认情况下，channel发送和接收数据都是阻塞的，除非另一端已经准备好了。这使得goroutine在同步时更加简单，而不需要显式的lock。所谓的阻塞就是指，读取（value :&#x3D; &lt;-ch）将会被阻塞，直到有数据接收。其次，任何发送（ch&lt;-5）也将会被阻塞，直到数据被读出。</p>
+</li>
+<li><p>在Go中，也可以指定channel的缓冲大小，即channel可以存储多少元素。当创造一个大小为len的channel时，前len个元素可以无阻塞地写入，而写入第len+1个元素时，将会被阻塞，直到其他goroutine从channel中读取元素。当给定的len&#x3D;0时，实际上相当于定义一个无缓冲阻塞读写的channel。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">&quot;fmt&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	c := <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="type">int</span>, <span class="number">2</span>)<span class="comment">//修改2为1就报错，修改2为3可以正常运行</span></span><br><span class="line">	c &lt;- <span class="number">1</span></span><br><span class="line">	c &lt;- <span class="number">2</span></span><br><span class="line">	fmt.Println(&lt;-c)</span><br><span class="line">	fmt.Println(&lt;-c)</span><br><span class="line">&#125;</span><br><span class="line">        <span class="comment">//修改为1报如下的错误:</span></span><br><span class="line">        <span class="comment">//fatal error: all goroutines are asleep - deadlock!</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>可以通过range语句，像操作slice或map那样操作channel。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;fmt&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">fibonacci</span><span class="params">(n <span class="type">int</span>, c <span class="keyword">chan</span> <span class="type">int</span>)</span></span> &#123;</span><br><span class="line">	x, y := <span class="number">1</span>, <span class="number">1</span></span><br><span class="line">	<span class="keyword">for</span> i := <span class="number">0</span>; i &lt; n; i++ &#123;</span><br><span class="line">		c &lt;- x</span><br><span class="line">		x, y = y, x + y</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">close</span>(c)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	c := <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="type">int</span>, <span class="number">10</span>)</span><br><span class="line">	<span class="keyword">go</span> fibonacci(<span class="built_in">cap</span>(c), c)</span><br><span class="line">	<span class="keyword">for</span> i := <span class="keyword">range</span> c &#123;</span><br><span class="line">		fmt.Println(i)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>可以通过<code>close</code>来关闭channel，关闭channel之后，channel便无法再发送任何数据了。可以通过语法<code>v, ok := &lt;- ch</code>来检测channel是否被关闭。如果ok为false，则说明channel已经被关闭。</p>
+</li>
+<li><p>当存在多个channel时，可以使用关键字<code>select</code>来监听channel上的数据流动。<code>select</code>默认是阻塞的，只有当监听的channel中有发送或者接收可以进行时，才会运行。如果同时有多个channel准备好，那么会随机选择一个正在执行的channel。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">&quot;fmt&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">fibonacci</span><span class="params">(c, quit <span class="keyword">chan</span> <span class="type">int</span>)</span></span> &#123;</span><br><span class="line">	x, y := <span class="number">1</span>, <span class="number">1</span></span><br><span class="line">	<span class="keyword">for</span> &#123;</span><br><span class="line">		<span class="keyword">select</span> &#123;</span><br><span class="line">		<span class="keyword">case</span> c &lt;- x:</span><br><span class="line">			x, y = y, x + y</span><br><span class="line">		<span class="keyword">case</span> &lt;-quit:</span><br><span class="line">			fmt.Println(<span class="string">&quot;quit&quot;</span>)</span><br><span class="line">			<span class="keyword">return</span></span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	c := <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="type">int</span>)</span><br><span class="line">	quit := <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="type">int</span>)</span><br><span class="line">	<span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">		<span class="keyword">for</span> i := <span class="number">0</span>; i &lt; <span class="number">10</span>; i++ &#123;</span><br><span class="line">			fmt.Println(&lt;-c)</span><br><span class="line">		&#125;</span><br><span class="line">		quit &lt;- <span class="number">0</span></span><br><span class="line">	&#125;()</span><br><span class="line">	fibonacci(c, quit)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>类似switch语句，select中也有default语句，当监听的channel都没有准备好的时候，默认执行default语句。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> &#123;</span><br><span class="line"><span class="keyword">case</span> i := &lt;-c:</span><br><span class="line">	<span class="comment">// use i</span></span><br><span class="line"><span class="keyword">default</span>:</span><br><span class="line">	<span class="comment">// 当c阻塞的时候执行这里</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>有时候会出现goroutine阻塞的情况，为了避免整个程序进入阻塞，可以利用select来设置超时。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	c := <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="type">int</span>)</span><br><span class="line">	o := <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="type">bool</span>)</span><br><span class="line">	<span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">		<span class="keyword">for</span> &#123;</span><br><span class="line">			<span class="keyword">select</span> &#123;</span><br><span class="line">				<span class="keyword">case</span> v := &lt;- c:</span><br><span class="line">					<span class="built_in">println</span>(v)</span><br><span class="line">				<span class="keyword">case</span> &lt;- time.After(<span class="number">5</span> * time.Second):</span><br><span class="line">					<span class="built_in">println</span>(<span class="string">&quot;timeout&quot;</span>)</span><br><span class="line">					o &lt;- <span class="literal">true</span></span><br><span class="line">					<span class="keyword">break</span></span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;()</span><br><span class="line">	&lt;- o</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>runtime包中一些常用的处理goroutine的函数：</p>
+<ul>
+<li><p>Goexit</p>
+<p>退出当前执行的goroutine，但defer函数继续调用。</p>
+</li>
+<li><p>Gosched</p>
+<p>让出goroutine的执行权限，等待其他任务运行，在下次某个时候从该位置恢复执行。</p>
+</li>
+<li><p>NumCPU</p>
+<p>返回CPU核数量。</p>
+</li>
+<li><p>NumGoroutine</p>
+<p>返回正在执行和排队的任务总数。</p>
+</li>
+<li><p>GOMAXPROCS</p>
+<p>设置可以并行计算的CPU核的数目最大值，并返回之前设置的值。</p>
+</li>
+</ul>
+</li>
+</ol>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">Author: </span><span class="post-copyright-info"><a href="http://hylio.github.io">hylio</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">Link: </span><span class="post-copyright-info"><a href="http://hylio.github.io/2022/10/21/build-web-with-go-2/">http://hylio.github.io/2022/10/21/build-web-with-go-2/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/goland/">goland</a></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2022/10/28/use-pytorch-grad-cam/" title="use_pytorch_grad_cam"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">Previous Post</div><div class="prev_info">use_pytorch_grad_cam</div></div></a></div><div class="next-post pull-right"><a href="/2022/10/20/build-web-with-go-1/" title="build_web_with_go_1"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">Next Post</div><div class="next_info">build_web_with_go_1</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>Related Articles</span></div><div class="relatedPosts-list"><div><a href="/2022/10/20/build-web-with-go-1/" title="build_web_with_go_1"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-10-20</div><div class="title">build_web_with_go_1</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">hylio</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">6</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">6</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>Announcement</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>Catalog</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%BB%93%E6%9E%84%E4%BD%93"><span class="toc-number">1.</span> <span class="toc-text">结构体</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%8E%A5%E5%8F%A3"><span class="toc-number">2.</span> <span class="toc-text">接口</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8F%8D%E5%B0%84"><span class="toc-number">3.</span> <span class="toc-text">反射</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%B9%B6%E5%8F%91"><span class="toc-number">4.</span> <span class="toc-text">并发</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>Recent Post</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/03/10/mysql1/" title="mysql1">mysql1</a><time datetime="2023-03-10T06:36:18.000Z" title="Created 2023-03-10 14:36:18">2023-03-10</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2022/10/28/use-pytorch-grad-cam/" title="use_pytorch_grad_cam">use_pytorch_grad_cam</a><time datetime="2022-10-28T07:22:21.000Z" title="Created 2022-10-28 15:22:21">2022-10-28</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2022/10/21/build-web-with-go-2/" title="build_web_with_go_2">build_web_with_go_2</a><time datetime="2022-10-21T06:27:54.000Z" title="Created 2022-10-21 14:27:54">2022-10-21</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2022/10/20/build-web-with-go-1/" title="build_web_with_go_1">build_web_with_go_1</a><time datetime="2022-10-20T07:33:34.000Z" title="Created 2022-10-20 15:33:34">2022-10-20</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2022/10/19/how-to-use-hexo/" title="how to use hexo">how to use hexo</a><time datetime="2022-10-19T03:06:19.000Z" title="Created 2022-10-19 11:06:19">2022-10-19</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2023 By hylio</div><div class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Read Mode"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="Switch Between Light And Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle between single-column and double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="Setting"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table Of Contents"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="Back To Top"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

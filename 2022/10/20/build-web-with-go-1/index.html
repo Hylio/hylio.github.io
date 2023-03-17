@@ -1,32 +1,255 @@
-extends includes/layout.pug
+<!DOCTYPE html><html lang="en" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"><title>build_web_with_go_1 | Hylio's blog</title><meta name="author" content="hylio"><meta name="copyright" content="hylio"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="本文主要用于记录一些golang web学习前的基础复习中获得到的小知识。学海无涯，已经用go刷了400题leetcode了，为什么还能从helloworld中学习到新知识呢，小编也很好奇( 变量声明 “:&#x3D;” 叫做简短声明，可以代替var和 type进行变量的初始化，但它只能用在函数内部，在函数外部使用会无法编译通过，所以一般使用var方式来定义全局变量。  常量声明忽略值时，默认和之">
+<meta property="og:type" content="article">
+<meta property="og:title" content="build_web_with_go_1">
+<meta property="og:url" content="http://hylio.github.io/2022/10/20/build-web-with-go-1/index.html">
+<meta property="og:site_name" content="Hylio&#39;s blog">
+<meta property="og:description" content="本文主要用于记录一些golang web学习前的基础复习中获得到的小知识。学海无涯，已经用go刷了400题leetcode了，为什么还能从helloworld中学习到新知识呢，小编也很好奇( 变量声明 “:&#x3D;” 叫做简短声明，可以代替var和 type进行变量的初始化，但它只能用在函数内部，在函数外部使用会无法编译通过，所以一般使用var方式来定义全局变量。  常量声明忽略值时，默认和之">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png">
+<meta property="article:published_time" content="2022-10-20T07:33:34.000Z">
+<meta property="article:modified_time" content="2022-10-21T03:29:52.000Z">
+<meta property="article:author" content="hylio">
+<meta property="article:tag" content="goland">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://hylio.github.io/2022/10/20/build-web-with-go-1/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: 'Just',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  }
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'build_web_with_go_1',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2022-10-21 11:29:52'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
 
-block content
-  #post
-    if top_img === false
-      include includes/header/post-info.pug
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
 
-    article#article-container.post-content!=page.content
-    include includes/post/post-copyright.pug
-    .tag_share
-      if (theme.post_meta.post.tags)
-        .post-meta__tag-list
-          each item, index in page.tags.data
-            a(href=url_for(item.path)).post-meta__tags #[=item.name]
-      include includes/third-party/share/index.pug
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+    win.getCSS = (url,id = false) => new Promise((resolve, reject) => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      if (id) link.id = id
+      link.onerror = reject
+      link.onload = link.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        link.onload = link.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(link)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
         
-    if theme.reward.enable && theme.reward.QR_code
-      !=partial('includes/post/reward', {}, {cache: true})
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.2.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">6</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">6</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">0</div></a></div><hr/></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><span id="blog-info"><a href="/" title="Hylio's blog"><span class="site-name">Hylio's blog</span></a></span><div id="menus"><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">build_web_with_go_1</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2022-10-20T07:33:34.000Z" title="Created 2022-10-20 15:33:34">2022-10-20</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2022-10-21T03:29:52.000Z" title="Updated 2022-10-21 11:29:52">2022-10-21</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="build_web_with_go_1"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post View:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p>本文主要用于记录一些golang web学习前的基础复习中获得到的小知识。学海无涯，已经用go刷了400题leetcode了，为什么还能从helloworld中学习到新知识呢，小编也很好奇(</p>
+<h1 id="变量声明"><a href="#变量声明" class="headerlink" title="变量声明"></a>变量声明</h1><ol>
+<li><p>“:&#x3D;” 叫做简短声明，可以代替<code>var</code>和<code> type</code>进行变量的初始化，但它只能用在函数内部，在函数外部使用会无法编译通过，所以一般使用<code>var</code>方式来定义全局变量。</p>
+</li>
+<li><p>常量声明忽略值时，默认和之前一个值相同。</p>
+</li>
+<li><p>Go语言支持复数，默认类型为<code>complex128</code>(64位实数+64位虚数)。一个实例：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> c <span class="type">complex128</span> = <span class="number">5</span>+<span class="number">5i</span></span><br><span class="line">fmt.Println(<span class="string">&quot;value is %v&quot;</span>, c)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>可以使用反单引号&#96;&#96;来声明字符串。这样声明的字符串称为Raw字符串，即字符串在代码中的形式就是打印时的形式，没有字符转义，换行也会原样输出。一个实例：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">s := <span class="string">`hello</span></span><br><span class="line"><span class="string">			world`</span></span><br><span class="line">fmt.Println(s)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>error</code>是Go中内置的一个类，<code>errors</code>是Go内置的一个包。可以调用其来处理错误信息。</p>
+</li>
+<li><p>声明多个变量&#x2F;声明多个常量&#x2F;导入多个包时，可以采用分组的方式声明。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">&quot;fmt&quot;</span></span><br><span class="line"><span class="keyword">import</span> <span class="string">&quot;os&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> i = <span class="number">100</span></span><br><span class="line"><span class="keyword">const</span> pi = <span class="number">3.1415</span></span><br><span class="line"><span class="keyword">const</span> prefix = <span class="string">&quot;Go_&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> i <span class="type">int</span></span><br><span class="line"><span class="keyword">var</span> pi <span class="type">float32</span></span><br><span class="line"><span class="keyword">var</span> prefix <span class="type">string</span></span><br></pre></td></tr></table></figure>
 
-    //- ad
-    if theme.ad && theme.ad.post
-      .ads-wrap!=theme.ad.post
+<p>上述代码和下列代码是完全等效的：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span>(</span><br><span class="line">	<span class="string">&quot;fmt&quot;</span></span><br><span class="line">	<span class="string">&quot;os&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span>(</span><br><span class="line">	i = <span class="number">100</span></span><br><span class="line">	pi = <span class="number">3.1415</span></span><br><span class="line">	prefix = <span class="string">&quot;Go_&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span>(</span><br><span class="line">	i <span class="type">int</span></span><br><span class="line">	pi <span class="type">float32</span></span><br><span class="line">	prefix <span class="type">string</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Go里有一个关键字<code>iota</code>， 用来声明枚举（<code>enum</code>）时采用，默认起始值是0，<code>const</code>中每增加一行则加1。除非被显式设置为其它值或<code>iota</code>，每个<code>const</code>分组的第一个常量被默认设置为它的0值，第二及后续的常量被默认设置为它前面那个常量的值，如果前面那个常量的值是<code>iota</code>，则它也被设置为<code>iota</code>。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;fmt&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> (</span><br><span class="line">	x = <span class="literal">iota</span> <span class="comment">// x == 0</span></span><br><span class="line">	y = <span class="literal">iota</span> <span class="comment">// y == 1</span></span><br><span class="line">	z = <span class="literal">iota</span> <span class="comment">// z == 2</span></span><br><span class="line">	w        <span class="comment">// 常量声明省略值时，默认和之前一个值的字面相同。这里隐式地说w = iota，因此w == 3。其实上面y和z可同样不用&quot;= iota&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> v = <span class="literal">iota</span> <span class="comment">// 每遇到一个const关键字，iota就会重置，此时v == 0</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> (</span><br><span class="line">	h, i, j = <span class="literal">iota</span>, <span class="literal">iota</span>, <span class="literal">iota</span> <span class="comment">//h=0,i=0,j=0 iota在同一行值相同</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> (</span><br><span class="line">	a       = <span class="literal">iota</span> <span class="comment">//a=0</span></span><br><span class="line">	b       = <span class="string">&quot;B&quot;</span></span><br><span class="line">	c       = <span class="literal">iota</span>             <span class="comment">//c=2</span></span><br><span class="line">	d, e, f = <span class="literal">iota</span>, <span class="literal">iota</span>, <span class="literal">iota</span> <span class="comment">//d=3,e=3,f=3</span></span><br><span class="line">	g       = <span class="literal">iota</span>             <span class="comment">//g = 4</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	fmt.Println(a, b, c, d, e, f, g, h, i, j, x, y, z, w, v)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Go如何区分公有&#x2F;私有：</p>
+<p>大写字母开头的变量&#x2F;函数是公有的，相当于<code>public</code>； </p>
+<p>小写字母开头的变量&#x2F;函数是私有的，相当于<code>private</code> </p>
+</li>
+<li><p>声明数组时可以以<code>...</code>替代数组长度，会在初始化完成后依据元素个数自动生成长度。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">a := [...]<span class="type">int</span>&#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>切片<code>slice</code>是引用类型，当引用改变其中元素的值时，所有的引用都会改变该值。</p>
+</li>
+<li><p>从概念层面上来说，<code>slice</code>像一个结构体，其中包含了三个元素：</p>
+<ul>
+<li>一个指向<code>slice</code>开始位置的指针</li>
+<li><code>slice</code>的长度</li>
+<li><code>slice</code>的最大长度</li>
+</ul>
+</li>
+<li><p><code>append</code>函数会改变<code>slice</code>所引用的数组的内容，从而影响到引用同一数组的其它<code>slice</code>。 但当<code>slice</code>中没有剩余空间（即<code>(cap-len) == 0</code>）时，此时将动态分配新的数组空间。返回的<code>slice</code>数组指针将指向这个空间，而原数组的内容将保持不变；其它引用此数组的<code>slice</code>则不受影响。</p>
+</li>
+<li><p><code>slice</code>现在支持三个参数的定义，第三个参数可以指定<code>slice</code>的容量。</p>
+</li>
+<li><p>make和new都是golang用于分配内存的内建函数，他们的区别在于：</p>
+<ul>
+<li>make既分配内存，同时也会进行初始化，而new只会分配内存；</li>
+<li>make返回的是引用类型本身，而new返回的是指向该类型的指针；</li>
+<li>make只能用于<code>slice</code>,<code>map</code>,<code>channel</code>,而new可以分配任意类型。</li>
+</ul>
+</li>
+</ol>
+<h1 id="流程和函数"><a href="#流程和函数" class="headerlink" title="流程和函数"></a>流程和函数</h1><ol>
+<li><p>当存在嵌套for循环的时候，<code>break</code>可以配合标签语句使用，跳转到标签锁指定的循环中。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> i := <span class="number">0</span>; i&lt;<span class="number">10</span>; i++&#123;</span><br><span class="line">    HERE:</span><br><span class="line">    <span class="keyword">for</span> j:=<span class="number">0</span>; j&lt;<span class="number">10</span>; j++&#123;</span><br><span class="line">        <span class="keyword">for</span> k:=<span class="number">0</span>; k&lt;<span class="number">10</span>; k++&#123;</span><br><span class="line">            <span class="keyword">if</span> k==<span class="number">3</span>&#123;</span><br><span class="line">                <span class="keyword">break</span> HERE</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Go里的switch语句默认每个<code>case</code>自带break，匹配成功后就不会再往下继续执行，而是跳出<code>switch</code>，但是可以使用<code>fallthrough</code>语句强制执行后面的<code>case</code>代码。</p>
+</li>
+<li><p>Go语言中，<code>channel</code>,<code>slice</code>,<code>map</code>三种类型的实现机制类似指针，所以可以直接传递，而不需要取地址之后传递指针。（如果函数可能改变<code>slice</code>的长度，则仍然需要取地址传递指针）</p>
+</li>
+<li><p>defer语句可以在函数执行结束之前自动地、逆序地执行。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> i := <span class="number">0</span>; i &lt; <span class="number">5</span>; i++ &#123;</span><br><span class="line">    <span class="comment">// output: 4,3,2,1,0</span></span><br><span class="line">    <span class="keyword">defer</span> fmt.Printf(<span class="string">&quot;%d &quot;</span>, i)</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">return</span> </span><br></pre></td></tr></table></figure>
+</li>
+<li><p>函数也可以作为一种变量或者类型，这在写一些接口的时候非常有用。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">&quot;fmt&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> testInt <span class="function"><span class="keyword">func</span><span class="params">(<span class="type">int</span>)</span></span> <span class="type">bool</span> <span class="comment">// 声明了一个函数类型</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">isOdd</span><span class="params">(integer <span class="type">int</span>)</span></span> <span class="type">bool</span> &#123;</span><br><span class="line">	<span class="keyword">if</span> integer%<span class="number">2</span> == <span class="number">0</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">isEven</span><span class="params">(integer <span class="type">int</span>)</span></span> <span class="type">bool</span> &#123;</span><br><span class="line">	<span class="keyword">if</span> integer%<span class="number">2</span> == <span class="number">0</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 声明的函数类型在这个地方当做了一个参数</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">filter</span><span class="params">(slice []<span class="type">int</span>, f testInt)</span></span> []<span class="type">int</span> &#123;</span><br><span class="line">	<span class="keyword">var</span> result []<span class="type">int</span></span><br><span class="line">	<span class="keyword">for</span> _, value := <span class="keyword">range</span> slice &#123;</span><br><span class="line">		<span class="keyword">if</span> f(value) &#123;</span><br><span class="line">			result = <span class="built_in">append</span>(result, value)</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> result</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">	slice := []<span class="type">int</span> &#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">7</span>&#125;</span><br><span class="line">	fmt.Println(<span class="string">&quot;slice = &quot;</span>, slice)</span><br><span class="line">	odd := filter(slice, isOdd)    <span class="comment">// 函数当做值来传递了</span></span><br><span class="line">	fmt.Println(<span class="string">&quot;Odd elements of slice are: &quot;</span>, odd)</span><br><span class="line">	even := filter(slice, isEven)  <span class="comment">// 函数当做值来传递了</span></span><br><span class="line">	fmt.Println(<span class="string">&quot;Even elements of slice are: &quot;</span>, even)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>panic</code>和<code>recover</code></p>
+<p><code>panic</code>和<code>recover</code>类似于go语言中的异常机制。</p>
+<p><code>panic</code>是一个内建函数，可以中断原有的控制流程，进入一个panic状态中。当函数<code>F</code>调用<code>panic</code>，函数<code>F</code>的执行中断，并返回到调用它的地方。在调用的地方，<code>F</code>的行为就像调用了<code>panic</code>。这一过程继续向上，直到发生<code>panic</code>的<code>goroutine</code>中所有调用的函数返回，此时程序退出。<code>panic</code>可以直接调用<code>panic</code>产生。也可以由运行时错误产生，例如访问越界的数组。</p>
+<p><code>recover</code>是一个内建的函数，可以让进入<code>panic</code>状态的<code>goroutine</code>恢复过来。<code>recover</code>仅在延迟函数中有效。在正常的执行过程中，调用<code>recover</code>会返回<code>nil</code>，并且没有其它任何效果。如果当前的<code>goroutine</code>陷入<code>panic</code>状态，调用<code>recover</code>可以捕获到<code>panic</code>的输入值，并且恢复正常的执行。</p>
+<p>如何在过程中使用<code>panic</code>:</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> user = os.Getenv(<span class="string">&quot;USER&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">init</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="keyword">if</span> user == <span class="string">&quot;&quot;</span> &#123;</span><br><span class="line">		<span class="built_in">panic</span>(<span class="string">&quot;no value for $USER&quot;</span>)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-    if theme.post_pagination
-      include includes/pagination.pug
-    if theme.related_post && theme.related_post.enable
-      != related_posts(page,site.posts)
+<p>这个函数可以检查作为其参数的函数在执行时是否会产生<code>panic</code>：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">throwsPanic</span><span class="params">(f <span class="keyword">func</span>()</span></span>) (b <span class="type">bool</span>) &#123;</span><br><span class="line">	<span class="keyword">defer</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">		<span class="keyword">if</span> x := <span class="built_in">recover</span>(); x != <span class="literal">nil</span> &#123;</span><br><span class="line">			b = <span class="literal">true</span></span><br><span class="line">		&#125;</span><br><span class="line">	&#125;()</span><br><span class="line">	f() <span class="comment">//执行函数f，如果f中出现了panic，那么就可以恢复回来</span></span><br><span class="line">	<span class="keyword">return</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Go里有着类似于<code>main</code>函数的<code>init</code>函数，这两个函数在定义时都不能有任何的参数和返回值。每个package中可以选择是否有<code>init</code>函数，而<code>package main</code>中则必须包含一个<code>main</code>函数。</p>
+<p>程序的初始化和执行都起始于<code>main</code>包。如果<code>main</code>包还导入了其它的包，那么就会在编译时将它们依次导入。有时一个包会被多个包同时导入，那么它只会被导入一次（例如很多包可能都会用到<code>fmt</code>包，但它只会被导入一次，因为没有必要导入多次）。当一个包被导入时，如果该包还导入了其它的包，那么会先将其它包导入进来，然后再对这些包中的包级常量和变量进行初始化，接着执行<code>init</code>函数（如果有的话），依次类推。等所有被导入的包都加载完毕了，就会开始对<code>main</code>包中的包级常量和变量进行初始化，然后执行<code>main</code>包中的<code>init</code>函数（如果存在的话），最后执行<code>main</code>函数。</p>
+<p><img src="https://github.com/astaxie/build-web-application-with-golang/raw/master/zh/images/2.3.init.png?raw=true" alt="img"></p>
+</li>
+<li><p>如何调用自己写的<code>package</code>？</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 调用同一目录下的model</span></span><br><span class="line"><span class="comment">// 相对路径</span></span><br><span class="line"><span class="keyword">import</span> <span class="string">&quot;./model&quot;</span> </span><br><span class="line"><span class="comment">// 绝对路径</span></span><br><span class="line"><span class="comment">// 加载gopath/src/test/model</span></span><br><span class="line"><span class="keyword">import</span> <span class="string">&quot;test/model&quot;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>使用下面的import可以在调用函数时省略前缀的包名。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span>(</span><br><span class="line">	. <span class="string">&quot;fmt&quot;</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
 
-    if page.comments !== false && theme.comments && theme.comments.use
-      - var commentsJsLoad = true
-      !=partial('includes/third-party/comments/index', {}, {cache: true})
-      
+<p>使用下面的import可以调用包时使用别名，类似python的as。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span>(</span><br><span class="line">	f <span class="string">&quot;fmt&quot;</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<p>使用下面的import可以只调用init函数，而不使用其他的函数。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> (</span><br><span class="line">    _ <span class="string">&quot;github.com/ziutek/mymysql/godrv&quot;</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure></li>
+</ol>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">Author: </span><span class="post-copyright-info"><a href="http://hylio.github.io">hylio</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">Link: </span><span class="post-copyright-info"><a href="http://hylio.github.io/2022/10/20/build-web-with-go-1/">http://hylio.github.io/2022/10/20/build-web-with-go-1/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/goland/">goland</a></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2022/10/21/build-web-with-go-2/" title="build_web_with_go_2"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">Previous Post</div><div class="prev_info">build_web_with_go_2</div></div></a></div><div class="next-post pull-right"><a href="/2022/10/19/how-to-use-hexo/" title="how to use hexo"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">Next Post</div><div class="next_info">how to use hexo</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>Related Articles</span></div><div class="relatedPosts-list"><div><a href="/2022/10/21/build-web-with-go-2/" title="build_web_with_go_2"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-10-21</div><div class="title">build_web_with_go_2</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">hylio</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">6</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">6</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>Announcement</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>Catalog</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8F%98%E9%87%8F%E5%A3%B0%E6%98%8E"><span class="toc-number">1.</span> <span class="toc-text">变量声明</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%B5%81%E7%A8%8B%E5%92%8C%E5%87%BD%E6%95%B0"><span class="toc-number">2.</span> <span class="toc-text">流程和函数</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>Recent Post</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/03/10/mysql1/" title="mysql1">mysql1</a><time datetime="2023-03-10T06:36:18.000Z" title="Created 2023-03-10 14:36:18">2023-03-10</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2022/10/28/use-pytorch-grad-cam/" title="use_pytorch_grad_cam">use_pytorch_grad_cam</a><time datetime="2022-10-28T07:22:21.000Z" title="Created 2022-10-28 15:22:21">2022-10-28</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2022/10/21/build-web-with-go-2/" title="build_web_with_go_2">build_web_with_go_2</a><time datetime="2022-10-21T06:27:54.000Z" title="Created 2022-10-21 14:27:54">2022-10-21</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2022/10/20/build-web-with-go-1/" title="build_web_with_go_1">build_web_with_go_1</a><time datetime="2022-10-20T07:33:34.000Z" title="Created 2022-10-20 15:33:34">2022-10-20</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2022/10/19/how-to-use-hexo/" title="how to use hexo">how to use hexo</a><time datetime="2022-10-19T03:06:19.000Z" title="Created 2022-10-19 11:06:19">2022-10-19</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2023 By hylio</div><div class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Read Mode"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="Switch Between Light And Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle between single-column and double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="Setting"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table Of Contents"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="Back To Top"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
