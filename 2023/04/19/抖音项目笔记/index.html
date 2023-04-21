@@ -1,0 +1,244 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"><title>抖音项目笔记 | Hylio's blog</title><meta name="author" content="hylio"><meta name="copyright" content="hylio"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="微服务微服务优势 各个微服务可以各自开发，并专注于单一的功能，对开发人员友好 容易扩展、更改 各服务彼此独立，能够做到负载均衡  微服务缺点 RPC增加延迟 增加技术故障排除的挑战  数据库部分需求分析 用户信息表：用户名，密码，关注人数，粉丝人数，作品数，点赞数 用户关系表：用户之间的关注信息 视频信息表：作者id，视频标题，视频和封面的url，点赞数，评论数 点赞信息表：用户id，视频id 评">
+<meta property="og:type" content="article">
+<meta property="og:title" content="抖音项目笔记">
+<meta property="og:url" content="http://hylio.github.io/2023/04/19/%E6%8A%96%E9%9F%B3%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="Hylio&#39;s blog">
+<meta property="og:description" content="微服务微服务优势 各个微服务可以各自开发，并专注于单一的功能，对开发人员友好 容易扩展、更改 各服务彼此独立，能够做到负载均衡  微服务缺点 RPC增加延迟 增加技术故障排除的挑战  数据库部分需求分析 用户信息表：用户名，密码，关注人数，粉丝人数，作品数，点赞数 用户关系表：用户之间的关注信息 视频信息表：作者id，视频标题，视频和封面的url，点赞数，评论数 点赞信息表：用户id，视频id 评">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png">
+<meta property="article:published_time" content="2023-04-19T03:03:42.000Z">
+<meta property="article:modified_time" content="2023-04-21T06:34:30.000Z">
+<meta property="article:author" content="hylio">
+<meta property="article:tag" content="tiktok">
+<meta property="article:tag" content="golang">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://hylio.github.io/2023/04/19/%E6%8A%96%E9%9F%B3%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  }
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '抖音项目笔记',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-04-21 14:34:30'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+    win.getCSS = (url,id = false) => new Promise((resolve, reject) => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      if (id) link.id = id
+      link.onerror = reject
+      link.onload = link.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        link.onload = link.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(link)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.2.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">12</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">12</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><hr/></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><span id="blog-info"><a href="/" title="Hylio's blog"><span class="site-name">Hylio's blog</span></a></span><div id="menus"><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">抖音项目笔记</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-04-19T03:03:42.000Z" title="发表于 2023-04-19 11:03:42">2023-04-19</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-04-21T06:34:30.000Z" title="更新于 2023-04-21 14:34:30">2023-04-21</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="抖音项目笔记"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="微服务"><a href="#微服务" class="headerlink" title="微服务"></a>微服务</h2><h4 id="微服务优势"><a href="#微服务优势" class="headerlink" title="微服务优势"></a>微服务优势</h4><ol>
+<li>各个微服务可以各自开发，并专注于单一的功能，对开发人员友好</li>
+<li>容易扩展、更改</li>
+<li>各服务彼此独立，能够做到负载均衡</li>
+</ol>
+<h4 id="微服务缺点"><a href="#微服务缺点" class="headerlink" title="微服务缺点"></a>微服务缺点</h4><ol>
+<li>RPC增加延迟</li>
+<li>增加技术故障排除的挑战</li>
+</ol>
+<h2 id="数据库部分"><a href="#数据库部分" class="headerlink" title="数据库部分"></a>数据库部分</h2><h4 id="需求分析"><a href="#需求分析" class="headerlink" title="需求分析"></a>需求分析</h4><ul>
+<li>用户信息表：用户名，密码，关注人数，粉丝人数，作品数，点赞数</li>
+<li>用户关系表：用户之间的关注信息</li>
+<li>视频信息表：作者id，视频标题，视频和封面的url，点赞数，评论数</li>
+<li>点赞信息表：用户id，视频id</li>
+<li>评论信息表：评论id，视频id，内容，时间</li>
+<li>消息信息表：消息发送方id，消息接收方id，消息内容，时间</li>
+</ul>
+<h4 id="注意点"><a href="#注意点" class="headerlink" title="注意点"></a>注意点</h4><ol>
+<li>使用了gorm.Model，因此会自动有id、创建、删除和更新的时间。gorm中自动实现了软删除，通过判断删除时间字段是否填充来标记是否被删除，如果为空说明没有被删，否则代表已被删，并且其值就是删除时间。</li>
+<li>为了避免某些已删除的数据与新插入的数据之间的冲突，必须在某些表的唯一索引中加入软删除字段。例如favorite 和 follow，如果不加入软删除，那么在插入新的数据时，会和原有数据冲突，比如取关后再点关注；而comment等不会产生这个问题，因为同一个用户同一个视频可以存在多个评论。</li>
+<li>relation和favorite为了避免重复插入，不再使用gorm.Model提供的delete_at，而是使用soft_delete.DeleteAt，将默认值从null变为0。</li>
+<li>为了保持comment和message在redis和mysql的一致性，需要生成数据的uid，因此添加了snowflake雪花算法生成的uid以及自己设置的时间字段。</li>
+</ol>
+<h2 id="Redis部分"><a href="#Redis部分" class="headerlink" title="Redis部分"></a>Redis部分</h2><h4 id="需求分析-1"><a href="#需求分析-1" class="headerlink" title="需求分析"></a>需求分析</h4><ul>
+<li>用户信息：key为用户id，value分为两部分，一部分是用户的固定信息，包括id和用户名等；另一部分是统计信息，包括关注数、粉丝数、作品数等。统计信息经常被修改。</li>
+<li>视频信息：key为视频id，value分为两部分，一部分是视频的固定信息，包括视频id，作者id，标题，视频和封面url等；另一部分是统计信息，包括关注数、获赞数等。统计信息经常被修改。</li>
+<li>用户关系：即关注列表和粉丝列表。key为用户id，value为用户id的数组。在这里redis的数据结构选用set，这样可以对关注列表和粉丝列表求交集。</li>
+<li>点赞列表：key为用户id，value为视频id的数组。</li>
+<li>投稿列表：key为用户id，value为视频id的数组。</li>
+<li>评论信息和消息信息，评论列表和消息列表也都存入缓存中。</li>
+</ul>
+<h4 id="注意点-1"><a href="#注意点-1" class="headerlink" title="注意点"></a>注意点</h4><ol>
+<li><p><strong>缓存穿透</strong>：用户访问的数据既不在缓存在，也不在数据库中，导致数据库压力剧增。</p>
+<p>解决：使用布隆过滤器来快速判断是否存在该id，避免直接通过查询数据库。当写入用户信息时，就添加用户id到布隆过滤器中。</p>
+<p>布隆过滤器：基于若干哈希函数和二进制位数组来实现。当访问一个数据时，先通过若干次哈希将其映射为一个二进制数，并检查这个二进制数是否存在。可以知道的是：当二进制数中任意一位为0，则说明数据库中一定不存在该数据；当二进制全部都为1时，也只能说明可能存在该数据，而不能说明一定存在；由于哈希函数不可逆，所以无法通过二进制来反向推导元素。</p>
+</li>
+<li><p><strong>缓存雪崩</strong>：大量缓存数据同时过期，造成大量请求直接访问数据库，导致数据库压力剧增。<br>解决：过期时间加入随机数，如一天+随机0-60分钟，是缓存失效时间尽量均匀，防止雪崩。</p>
+</li>
+<li><p><strong>缓存击穿</strong>：热点数据过期，导致大量请求直接访问数据库。</p>
+<p>解决：分布式互斥锁。</p>
+<p>为什么要采用分布式互斥锁？</p>
+<p>假设某个大V粉丝列表缓存过期，但他此时还有粉丝正在关注，就会同时有很多请求访问数据库，如果使用分布式锁，来使得第一个拿到锁的用户来数据库拿到表，并同时将其缓存到redis中，其他用户等待解锁后直接在缓存中取出。</p>
+<p>如何实现：使用redis的set nx ex命令来加锁并设置过期时间，并在解锁的时候校验锁是否已被释放，在此过程中使用lua脚本保证原子性。增加看门狗机制，在加锁成功后不断延迟锁的过期时间，释放锁或报错时关闭看门狗。</p>
+</li>
+<li><p><strong>Lua脚本</strong>：redis采用相同的解释器来运行所有命令，来保证脚本的原子性。</p>
+</li>
+</ol>
+<h4 id="为什么不用etcd"><a href="#为什么不用etcd" class="headerlink" title="为什么不用etcd"></a>为什么不用etcd</h4><p>etcd也是键值存储系统，一般用于服务发现，支持服务注册、服务健康检查等等，但其读写延迟和吞吐量上都不如redis，并且也没有缓存过期策略等等，而redis性能较高，拥有主从复制、缓存过期策略等优势。</p>
+<h2 id="Pulsar"><a href="#Pulsar" class="headerlink" title="Pulsar"></a>Pulsar</h2><h4 id="需求分析-2"><a href="#需求分析-2" class="headerlink" title="需求分析"></a>需求分析</h4><p>针对可能的高频写入操作场景，会先生产消息到消息队列，然后发送消息成功再写入redis，并异步返回，通过服务消费pulsar消息，再写入mysql，以进行削峰，异步操作还能降低点赞等操作的耗时，改善用户体验，并实现redis和mysql的最终一致性。 </p>
+<ul>
+<li>用户服务：关注&#x2F;取关</li>
+<li>视频服务：点赞&#x2F;取消点赞</li>
+<li>评论服务：评论&#x2F;删除</li>
+<li>消息服务：消息存储</li>
+</ul>
+<h4 id="为什么选择pulsar"><a href="#为什么选择pulsar" class="headerlink" title="为什么选择pulsar"></a>为什么选择pulsar</h4><p>将生产和消费解耦，限流削峰。高并发场景下的性能瓶颈在于mysql的读写，经过消息队列可以缓解mysql的压力。</p>
+<ul>
+<li>rabbitmq：容易部署和使用，但消息堆积时性能急剧下降，性能不高。</li>
+<li>kafka：吞吐量高，但有延迟</li>
+<li>pulsar：延迟低，吞吐量可以，消息处理和存储是分开的，可以无缝修复问题、复制等。</li>
+</ul>
+<h4 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h4><p>每个微服务都建立了一个pulsar客户端，使用一个消费者协程一直阻塞等待生产，当关注等操作发生时，就会生产消息，而消费者接收到消息后调用ACK表示成功，之后再将schema消息反序列化为消息体消息写入mysql，如果失败则会删除redis中的key保证一致性。</p>
+<h2 id="链路追踪"><a href="#链路追踪" class="headerlink" title="链路追踪"></a>链路追踪</h2><p>在微服务架构中，请求在各服务之间流转，调用链错综复杂，为了定位问题和异常，需要链路追踪。链路追踪可以追踪并记录请求在系统中的调用顺序、调用时间等，可以帮我们定位异常服务和性能瓶颈。</p>
+<p>在项目中使用了jaeger，我们使用context传递span。</p>
+<h2 id="Context"><a href="#Context" class="headerlink" title="Context"></a>Context</h2><p>context 包含了请求的上下文信息，例如请求的截止时间、请求的用户信息、请求的语言环境等等。context 的主要作用包括：</p>
+<ol>
+<li>控制请求的生命周期，而避免使用通道+select</li>
+<li>传递请求信息，包括用户信息、语言环境等</li>
+<li>控制并发访问，可以多个goroutine共享一个context，控制访问的权限和并发度</li>
+<li>中间件，可以在context中保存请求的状态和信息，在中间件进行处理，然后传递结果</li>
+</ol>
+<h2 id="安全设计"><a href="#安全设计" class="headerlink" title="安全设计"></a>安全设计</h2><h4 id="nginx限流"><a href="#nginx限流" class="headerlink" title="nginx限流"></a>nginx限流</h4><p>基于漏桶的思想实现限流，即缓存请求、匀速处理，多余的请求直接被丢弃。</p>
+<p>令牌桶算法：在固定的时间间隔内，按照一定速率向令牌桶中添加令牌，当请求到达时，如果令牌桶中有足够的令牌，则可以处理请求并从令牌桶中取走一个令牌，否则就拒绝请求。可以控制流量的平均速率和峰值速率。</p>
+<h4 id="加密算法"><a href="#加密算法" class="headerlink" title="加密算法"></a>加密算法</h4><p>采用argon2id算法并随机加盐再哈希。</p>
+<p>为什么argon2id：快、安全。</p>
+<p>加盐：在hash之前先将hash内容中固定位置插入字符串 使得hash中加入字符串后的结果与不加时不同 增加安全性。</p>
+<p>存储：将argon版本等参数和密码哈希、盐哈希共同生成一个字符串并存储起来，在登录时比较输入密码生成的哈希字符串是否和原字符串相同。</p>
+<p>登录逻辑：比较密码哈希，一致则直接通过，不一致开始记录失败，如果十分钟内超过5次则冻结登录30分钟。</p>
+<p>输出控制：不在日志中打印和保存密码、秘钥等，提示错误时也只提示用户名&#x2F;密码错误而不打印明文。</p>
+<h4 id="输入校验"><a href="#输入校验" class="headerlink" title="输入校验"></a>输入校验</h4></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="http://hylio.github.io">hylio</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://hylio.github.io/2023/04/19/%E6%8A%96%E9%9F%B3%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/">http://hylio.github.io/2023/04/19/%E6%8A%96%E9%9F%B3%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://hylio.github.io" target="_blank">Hylio's blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/tiktok/">tiktok</a><a class="post-meta__tags" href="/tags/golang/">golang</a></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2023/04/13/%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86go/" title="内存管理go"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">内存管理go</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2023/03/20/WSL2%E5%A6%82%E4%BD%95%E8%B0%83%E8%AF%95%E6%8A%96%E9%9F%B3%E9%A1%B9%E7%9B%AE/" title="WSL2如何调试抖音项目"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-03-20</div><div class="title">WSL2如何调试抖音项目</div></div></a></div><div><a href="/2023/04/13/%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86go/" title="内存管理go"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-04-13</div><div class="title">内存管理go</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">hylio</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">12</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">12</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BE%AE%E6%9C%8D%E5%8A%A1"><span class="toc-number">1.</span> <span class="toc-text">微服务</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BE%AE%E6%9C%8D%E5%8A%A1%E4%BC%98%E5%8A%BF"><span class="toc-number">1.0.1.</span> <span class="toc-text">微服务优势</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BE%AE%E6%9C%8D%E5%8A%A1%E7%BC%BA%E7%82%B9"><span class="toc-number">1.0.2.</span> <span class="toc-text">微服务缺点</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E9%83%A8%E5%88%86"><span class="toc-number">2.</span> <span class="toc-text">数据库部分</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%9C%80%E6%B1%82%E5%88%86%E6%9E%90"><span class="toc-number">2.0.1.</span> <span class="toc-text">需求分析</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B3%A8%E6%84%8F%E7%82%B9"><span class="toc-number">2.0.2.</span> <span class="toc-text">注意点</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Redis%E9%83%A8%E5%88%86"><span class="toc-number">3.</span> <span class="toc-text">Redis部分</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%9C%80%E6%B1%82%E5%88%86%E6%9E%90-1"><span class="toc-number">3.0.1.</span> <span class="toc-text">需求分析</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B3%A8%E6%84%8F%E7%82%B9-1"><span class="toc-number">3.0.2.</span> <span class="toc-text">注意点</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E4%B8%8D%E7%94%A8etcd"><span class="toc-number">3.0.3.</span> <span class="toc-text">为什么不用etcd</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Pulsar"><span class="toc-number">4.</span> <span class="toc-text">Pulsar</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%9C%80%E6%B1%82%E5%88%86%E6%9E%90-2"><span class="toc-number">4.0.1.</span> <span class="toc-text">需求分析</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E9%80%89%E6%8B%A9pulsar"><span class="toc-number">4.0.2.</span> <span class="toc-text">为什么选择pulsar</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0"><span class="toc-number">4.0.3.</span> <span class="toc-text">实现</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%93%BE%E8%B7%AF%E8%BF%BD%E8%B8%AA"><span class="toc-number">5.</span> <span class="toc-text">链路追踪</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Context"><span class="toc-number">6.</span> <span class="toc-text">Context</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E5%85%A8%E8%AE%BE%E8%AE%A1"><span class="toc-number">7.</span> <span class="toc-text">安全设计</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#nginx%E9%99%90%E6%B5%81"><span class="toc-number">7.0.1.</span> <span class="toc-text">nginx限流</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8A%A0%E5%AF%86%E7%AE%97%E6%B3%95"><span class="toc-number">7.0.2.</span> <span class="toc-text">加密算法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%BE%93%E5%85%A5%E6%A0%A1%E9%AA%8C"><span class="toc-number">7.0.3.</span> <span class="toc-text">输入校验</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/04/19/%E6%8A%96%E9%9F%B3%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/" title="抖音项目笔记">抖音项目笔记</a><time datetime="2023-04-19T03:03:42.000Z" title="发表于 2023-04-19 11:03:42">2023-04-19</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/04/13/%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86go/" title="内存管理go">内存管理go</a><time datetime="2023-04-13T06:56:09.000Z" title="发表于 2023-04-13 14:56:09">2023-04-13</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/04/12/%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86-c++/" title="内存管理(c++)">内存管理(c++)</a><time datetime="2023-04-12T12:06:00.000Z" title="发表于 2023-04-12 20:06:00">2023-04-12</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/04/12/%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/" title="内存管理">内存管理</a><time datetime="2023-04-12T06:56:52.000Z" title="发表于 2023-04-12 14:56:52">2023-04-12</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/04/05/%E5%B0%8F%E5%AD%A6%E4%B8%80%E4%B8%8B%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" title="小学一下设计模式">小学一下设计模式</a><time datetime="2023-04-05T02:02:35.000Z" title="发表于 2023-04-05 10:02:35">2023-04-05</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2023 By hylio</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
